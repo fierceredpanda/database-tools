@@ -111,7 +111,7 @@ object DataLoader {
     for (a <- 1 to numEntries) {
       columns.foreach(column => {
         if (!column.autoIncrement) {
-          insertStatement.setObject(column.index, generateValue(column.columnType, column.columnType))
+          insertStatement.setObject(column.index, generateValue(column.columnType, column.columnSize))
         }
       })
       insertStatement.addBatch()
@@ -123,7 +123,7 @@ object DataLoader {
   def generateValue(columnType: Int, columnSize: Int): Any = {
     columnType match {
       case Types.VARCHAR =>
-        val randomSize = randumNumGenerator.nextInt(columnSize)
+        val randomSize = randumNumGenerator.nextInt(columnSize).max(1)
         Random.alphanumeric.take(randomSize).mkString
       case Types.INTEGER => randumNumGenerator.nextInt(500)
       case Types.TIMESTAMP => new Timestamp(new Date().getTime)
