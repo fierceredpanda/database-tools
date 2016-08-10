@@ -1,4 +1,4 @@
-name := "sqoop-examples"
+name := "database-tools"
 
 version := "1.0"
 
